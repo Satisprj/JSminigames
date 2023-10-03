@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" style="background-color: black;" width="300" height="300">
+        hello this is for check
+        </canvas>
+
+    
+        <script>
+            const canvas = document.getElementById("canvas");
+            const context =  canvas.getContext("2d");
+        
+            canvas.addEventListener("mousemove",(event)=>{
+            context.beginPath();
+            context.clearRect(0, 0, 300, 300);
+            context.fillStyle = "red";
+            context.arc(event.clientX, event.clientY, 30, 45, 360);
+            context.fill();
+            //blue
+            context.beginPath();
+            //context.clearRect(0, 0, 300, 300);
+            context.fillStyle = "blue";
+            context.arc(event.clientX, event.clientY, 20, 25, 360);
+            context.fill();
+
+            //yellow
+            context.beginPath();
+            //context.clearRect(0, 0, 300, 300);
+            context.fillStyle = "yellow";
+            context.arc(event.clientX, event.clientY, 10, 5, 360);
+            context.fill();
+                
+
+
+            })
+
+
+
+        </script>
+
+</body>
+</html>
