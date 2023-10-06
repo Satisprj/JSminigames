@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas
+    style="background-color: red;"
+    id="canvas"
+    width="400" height="500"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context =  canvas.getContext("2d");
+        var x =100;
+        var y=100;
+        canvas.addEventListener("click", (event) => {
+            x = event.clientX;
+            y = event.clientY;
+         });
+
+       function update(){
+        context.clearRect(0,0,400,500);
+        context.beginPath();
+        context.fillStyle="yellow";
+        context.arc(x, y, 40, 0, 360);
+        context.fill();
+      y+=2;
+      window.requestAnimationFrame(update);
+
+       }
+       update();
+    </script>
+</body>
+</html>
