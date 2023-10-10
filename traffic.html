@@ -3,41 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas</title>
+    <title>Click to Remove Balls</title>
     <style>
-
+        canvas {
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
-    
-    <canvas id="canvas" style="border: 2px solid black ;" width="300" height="300">
-
-    </canvas>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
 
     <script>
-        let canvas = document.getElementById("canvas");
-        let context =  canvas.getContext("2d");
-        
-        context.beginPath();
-        context.fillStyle = "black";
-        context.rect(0,0,250,100);
-        context.fill();
+        // Get the canvas element and its 2d context
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
 
-        context.beginPath();
-        context.fillStyle = "red";
-        context.arc(50,50,25,0,360);
-        context.fill();
+        // Array to store ball information
+        const balls = [];
 
-        context.beginPath();
-        context.fillStyle = "orange";
-        context.arc(125,50,25,0,360);
-        context.fill();
+        // Function to draw a ball
+        function drawBall(x, y, radius, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath();
+        }
 
-        context.beginPath();
-        context.fillStyle = "green";
-        context.arc(200,50,25,0,360);
-        context.fill();
-        
+        // Function to generate random balls
+        function generateBalls() {
+            balls.length = 0; // Clear the existing balls
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+            for (let i = 0; i < 10; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const radius = Math.random() * 20 + 10; // Random radius between 10 and 30
+                const color = `rgb(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256})`;
+
+                balls.push({ x, y, radius, color });
+                drawBall(x, y, radius, color);
+            }
+        }
+
+        // Function to handle click event
+        function handleClick(event) {
+            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+            const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+            for (let i = 0; i < balls.length; i++) {
+                const ball = balls[i];
+                const dx = mouseX - ball.x;
+                const dy = mouseY - ball.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < ball.radius) {
+                    // Remove the clicked ball
+                    balls.splice(i, 1);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                    for (const ball of balls) {
+                        drawBall(ball.x, ball.y, ball.radius, ball.color);
+                    }
+                    break; // Exit the loop after removing the ball
+                }
+            }
+        }
+
+        // Handle click event
+        canvas.addEventListener("click", handleClick);
+
+        // Initial generation of balls
+        generateBalls();
     </script>
 </body>
 </html>

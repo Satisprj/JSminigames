@@ -6,11 +6,6 @@ class Pratical {
     this.x = Math.random() * (400 - 10) + 10;
     this.y = Math.random() * (400 - 10) + 10;
     this.r = Math.random() * (20 - 2) + 2;
-
-    // Set a time interval for the move function inside the constructor
-    setInterval(() => {
-      this.move();
-    }, 1000);
   }
 
   draw() {
@@ -22,28 +17,28 @@ class Pratical {
   move() {
     this.x += Math.random() * (1 - -1) + -1;
     this.y += Math.random() * (1 - -1) + -1;
-   // this.r = Math.random() * (20 - 2) + 2;
-  }
-
-}
-
-const prArray=[]
-
-for (let i =0;i<16;i++)
-{
-    const obj=new Pratical();
-    prArray.push(obj);
    
+
+    
+  }
 }
 
-console.log(prArray)
+const prArray = [];
 
-function animate(){
-    c.clearRect(0 , 0 , innerWidth,innerHeight );
-    for (let i =0;i<16;i++){
-        prArray[i].draw();
-        prArray[i].move();
-    }
-    requestAnimationFrame(animate);
+
+for (let i = 0; i < 16; i++) {
+  const obj = new Pratical();
+  prArray.push(obj);
 }
+console.log(prArray);
+
+function animate() {
+  c.clearRect(0, 0, innerWidth, innerHeight);
+  for (let i = 0; i < 16; i++) {
+    prArray[i].draw();
+    prArray[i].move();
+  }
+  requestAnimationFrame(() => setTimeout(animate, 100)); 
+}
+
 animate();
