@@ -31,9 +31,12 @@
        this.x=this.x-this.x_speed;       
       if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
         this.x_speed = -1;
+        this.color="#" + Math.floor(Math.random() * 16777215).toString(16);
+        
     }
     if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
         this.y_speed = -1;
+        this.color="#" + Math.floor(Math.random() * 16777215).toString(16);
     }
 
   }

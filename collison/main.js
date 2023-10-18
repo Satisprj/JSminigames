@@ -19,8 +19,8 @@ draw()
 {
     c.beginPath();
     c.fillStyle = this.color;
-    //c.rect(this.x,this.y,this.width,this.height);
-    c.arc(this.x,this.y,this.r,0,360);
+    c.rect(this.x,this.y,this.width,this.height);
+    //c.arc(this.x,this.y,this.r,0,360);
     c.fill();
     
 }

@@ -1,79 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click to Remove Balls</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="myCanvas" width="500" height="500"></canvas>
+  <canvas id="myCanvas" width="400" height="400"></canvas>
 
-    <script>
-        // Get the canvas element and its 2d context
-        const canvas = document.getElementById("myCanvas");
-        const ctx = canvas.getContext("2d");
+  <script>
+    // Get the canvas element and its context
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
 
-        // Array to store ball information
-        const balls = [];
+    // Define the first ball
+    var ball1 = {
+      x: 50,
+      y: 200,
+      radius: 20,
+      dx: 2,
+      color: "blue"
+    };
 
-        // Function to draw a ball
-        function drawBall(x, y, radius, color) {
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.fill();
-            ctx.closePath();
-        }
+    // Define the second ball
+    var ball2 = {
+      x: 350,
+      y: 200,
+      radius: 20,
+      dx: -2,
+      color: "red"
+    };
 
-        // Function to generate random balls
-        function generateBalls() {
-            balls.length = 0; // Clear the existing balls
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    // Function to draw a ball
+    function drawBall(ball) {
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fillStyle = ball.color;
+      ctx.fill();
+      ctx.closePath();
+    }
 
-            for (let i = 0; i < 10; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const radius = Math.random() * 20 + 10; // Random radius between 10 and 30
-                const color = `rgb(${Math.random() * 256}, ${Math.random() * 256}, ${Math.random() * 256})`;
+    // Function to update the position of the balls
+    function updateBalls() {
+      // Update the position of the first ball
+      ball1.x += ball1.dx;
 
-                balls.push({ x, y, radius, color });
-                drawBall(x, y, radius, color);
-            }
-        }
+      // Update the position of the second ball
+      ball2.x += ball2.dx;
 
-        // Function to handle click event
-        function handleClick(event) {
-            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
-            const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+      // Check for collision
+      if (Math.abs(ball1.x - ball2.x) < ball1.radius + ball2.radius) {
+        // Swap the velocities of the two balls to simulate a simple collision
+        var tempDx = ball1.dx;
+        ball1.dx = ball2.dx;
+        ball2.dx = tempDx;
+      }
 
-            for (let i = 0; i < balls.length; i++) {
-                const ball = balls[i];
-                const dx = mouseX - ball.x;
-                const dy = mouseY - ball.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                if (distance < ball.radius) {
-                    // Remove the clicked ball
-                    balls.splice(i, 1);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-                    for (const ball of balls) {
-                        drawBall(ball.x, ball.y, ball.radius, ball.color);
-                    }
-                    break; // Exit the loop after removing the ball
-                }
-            }
-        }
+      // Draw the balls
+      drawBall(ball1);
+      drawBall(ball2);
+    }
 
-        // Handle click event
-        canvas.addEventListener("click", handleClick);
+    // Animation loop
+    function animate() {
+      updateBalls();
+      requestAnimationFrame(animate);
+    }
 
-        // Initial generation of balls
-        generateBalls();
-    </script>
+    // Start the animation
+    animate();
+  </script>
 </body>
 </html>
